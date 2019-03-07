@@ -1,0 +1,20 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX gn: <http://www.geonames.org/ontology#>
+
+CONSTRUCT
+{
+    <http://dbpedia.org/ext/gn-postalCode> rdfs:subPropertyOf dbo:postalCode .
+    ?dbpedia <http://dbpedia.org/ext/gn-postalCode> ?poCode .
+}
+
+WHERE
+{
+	?place rdf:type <http://www.geonames.org/ontology#Feature> .
+  	?dbpedia owl:sameAs ?place .
+  	FILTER ( STRSTARTS(STR(?dbpedia), "http://dbpedia.org/resource/") ) .
+    FILTER ( STRSTARTS(STR(?place), "http://sws.geonames.org/") ) .
+	?place gn:postalCode ?poCode .
+}

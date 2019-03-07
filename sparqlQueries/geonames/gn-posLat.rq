@@ -1,0 +1,20 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX gn: <http://www.geonames.org/ontology#>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
+CONSTRUCT
+{
+    <http://dbpedia.org/ext/wgs84_pos-lat> rdfs:subPropertyOf geo:lat.
+    ?dbpedia <http://dbpedia.org/ext/gn-posLat> ?posLat .
+}
+
+WHERE
+{
+	?place rdf:type <http://www.geonames.org/ontology#Feature> .
+  	?dbpedia owl:sameAs ?place .
+  	FILTER ( STRSTARTS(STR(?dbpedia), "http://dbpedia.org/resource/") ) .
+    FILTER ( STRSTARTS(STR(?place), "http://sws.geonames.org/") ) .
+    ?place geo:lat ?posLat .
+}

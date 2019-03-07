@@ -1,0 +1,20 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX gn: <http://www.geonames.org/ontology#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+
+CONSTRUCT
+{
+    <http://dbpedia.org/ext/gn-population> rdfs:subPropertyOf dbo:populationTotal .
+    ?dbpedia <http://dbpedia.org/ext/gn-population> ?pop .
+}
+
+WHERE
+{
+	?place rdf:type <http://www.geonames.org/ontology#Feature> .
+  	?dbpedia owl:sameAs ?place .
+  	FILTER ( STRSTARTS(STR(?dbpedia), "http://dbpedia.org/resource/") ) .
+    FILTER ( STRSTARTS(STR(?place), "http://sws.geonames.org/") ) .
+    ?place gn:population ?pop .
+}
